@@ -28,7 +28,7 @@ android {
             java.srcDir sharedTestDir
         }
     }
-}g
+}
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
