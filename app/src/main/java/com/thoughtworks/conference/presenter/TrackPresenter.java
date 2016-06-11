@@ -25,4 +25,8 @@ public class TrackPresenter {
 
     trackView.render(sessionViewModels);
   }
+
+  public void onItemClick(int position) {
+    trackView.navigateToDetailView(sessions.get(position));
+  }
 }

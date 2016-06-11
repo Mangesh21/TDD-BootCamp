@@ -3,6 +3,7 @@ package com.thoughtworks.conference.view;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
@@ -14,15 +15,13 @@ import com.thoughtworks.conference.presenter.AgendaPresenter;
 public class AgendaActivity extends AppCompatActivity implements AgendaView {
 
   private ProgressDialog progressDialog;
-  private ViewPager mViewPager;
+  private AgendaPresenter agendaPresenter;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_agenda);
-    mViewPager = (ViewPager) findViewById(R.id.viewpager);
-
-    AgendaPresenter agendaPresenter = new AgendaPresenter(getApiClient(), this);
+    agendaPresenter = new AgendaPresenter(getApiClient(), this);
     agendaPresenter.presentConference();
   }
 
@@ -33,7 +32,7 @@ public class AgendaActivity extends AppCompatActivity implements AgendaView {
 
   @Override
   public void render(Conference conference) {
-    mViewPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager(), conference));
+    setupTabs(conference);
   }
 
   @Override
@@ -53,4 +52,13 @@ public class AgendaActivity extends AppCompatActivity implements AgendaView {
   public void dismissProgressDialog() {
     progressDialog.dismiss();
   }
+
+  private void setupTabs(Conference conference) {
+    TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+    ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+    ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), conference);
+    viewPager.setAdapter(adapter);
+    tabLayout.setupWithViewPager(viewPager);
+  }
+
 }
