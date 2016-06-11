@@ -1,5 +1,6 @@
 package com.thoughtworks.conference.view;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -19,7 +20,12 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
 
   @Override
   public Fragment getItem(int position) {
-    return null;
+    TrackFragment trackFragment = new TrackFragment();
+    Bundle bundle = new Bundle();
+    bundle.putParcelableArrayList(TrackFragment.SESSION_LIST_EXTRA_KEY, conference.filterByCategory(categories[position]));
+    trackFragment.setArguments(bundle);
+    return trackFragment;
+
   }
 
   @Override
